@@ -120,6 +120,8 @@
 
 ## 二、使用mongodb实现PTT课件存储
 执行[uploadToMango.py](uploadToMango.py)脚本，把文件批量上传到文档数据库mongodb，并把执行结果存储到[upload_results.json](upload_results.json)，从这个文件可以获取文件上传的file_id
+也可以执行测试脚本[select_from_mongo.py](select_from_mongo.py)来获取文件列表
+
 
 ## 三、创建mysql数据库脚本
 根据一、二两个步骤，我们便可以创建mysql建表脚本[create_table_mysql.sql](sql/create_table_mysql.sql)和数据插入脚本[insert_data_mysql.sql](sql/insert_data_mysql.sql)，需要注意的是，要把步骤二得到的file_id更新到ppt_files表中，执行这两个脚本我们变完成了实体关系的结构存储。
@@ -128,7 +130,7 @@
 
 ## 四、迁移实体数据到Neo4j
 执行脚本[可视化neo4j.py](%E5%8F%AF%E8%A7%86%E5%8C%96neo4j.py)把实体数据迁移到Neo4j中，实现知识图谱的可视化查询。
-## 测试脚本如下
+### 测试脚本如下
 #### 基础查询 - 直接关系
 查询"基数估计"的直接关系（作为源头和目标）
 ```cypher
@@ -148,6 +150,6 @@ RETURN source.name AS source, r.type AS relationship, e.name AS target
 ```
 #### 完整图谱查询 - 包含多跳关系
 ```cypher
-MATCH path = (e:Entity {name: '基数估计'})-[*1..2]-(related)
+MATCH path = (e:Entity {name: '数据仓库'})-[*1..2]-(related)
 RETURN path
 ```
